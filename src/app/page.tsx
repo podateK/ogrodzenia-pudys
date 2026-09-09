@@ -1,9 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import GallerySection from "@/components/GallerySection";
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div className="w-full flex flex-col items-center bg-[#f4f4f5] text-[#18181b]">
       {/* Top Banner / Announcement */}
@@ -44,23 +51,28 @@ export default function Home() {
             <div className="bg-zinc-900 border border-zinc-800 p-8 rounded-3xl shadow-2xl relative">
               <h3 className="text-xl font-bold text-white mb-2">Szybkie zapytanie</h3>
               <p className="text-zinc-400 text-sm mb-6">Odpowiadamy w ciągu 2 godzin w dni robocze.</p>
-              <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert("Dziękujemy! Wiadomość została wysłana."); }}>
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Twój Telefon</label>
-                  <input type="tel" required placeholder="+48 ___ ___ ___" className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-emerald-500" />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Rodzaj ogrodzenia</label>
-                  <select className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-emerald-500">
-                    <option>Ogrodzenie Grzebieniowe</option>
-                    <option>Ogrodzenie Aluminiowe</option>
-                    <option>Ogrodzenia Kute</option>
-                  </select>
-                </div>
-                <button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition-colors text-sm">
-                  Wyślij zapytanie
-                </button>
-              </form>
+              {mounted ? (
+                <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert("Dziękujemy! Wiadomość została wysłana."); }}>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Twój Telefon</label>
+                    <input type="tel" required placeholder="+48 ___ ___ ___" className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-emerald-500" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Rodzaj ogrodzenia</label>
+                    <select className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-emerald-500">
+                      <option value="panelowe">Ogrodzenie panelowe 3D</option>
+                      <option value="frontowe">Ogrodzenie frontowe / lamelowe</option>
+                      <option value="bramy">Brama przesuwna / skrzydłowa</option>
+                      <option value="inne">Inne / Balustrady</option>
+                    </select>
+                  </div>
+                  <button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition-colors text-sm">
+                    Wyślij zapytanie
+                  </button>
+                </form>
+              ) : (
+                <div className="h-48 flex items-center justify-center text-zinc-500 text-sm">Ładowanie formularza...</div>
+              )}
             </div>
           </div>
         </div>
@@ -202,29 +214,33 @@ export default function Home() {
 
           <div className="lg:col-span-6 bg-zinc-900 border border-zinc-800 p-8 sm:p-10 rounded-3xl shadow-2xl">
             <h3 className="text-2xl font-bold mb-6">Formularz kontaktowy</h3>
-            <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert("Wiadomość została wysłana pomyślnie!"); }}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Imię i nazwisko</label>
-                  <input type="text" required placeholder="Jan Kowalski" className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-emerald-500" />
+            {mounted ? (
+              <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert("Wiadomość została wysłana pomyślnie!"); }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Imię i nazwisko</label>
+                    <input type="text" required placeholder="Jan Kowalski" className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-emerald-500" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Numer telefonu</label>
+                    <input type="tel" required placeholder="+48 ___ ___ ___" className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-emerald-500" />
+                  </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Numer telefonu</label>
-                  <input type="tel" required placeholder="+48 ___ ___ ___" className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-emerald-500" />
+                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Miejscowość montażu</label>
+                  <input type="text" placeholder="np. Poznań / Swarzędz" className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-emerald-500" />
                 </div>
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Miejscowość montażu</label>
-                <input type="text" placeholder="np. Poznań / Swarzędz" className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-emerald-500" />
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Szczegóły / Wymiary (opcjonalnie)</label>
-                <textarea rows={3} placeholder="np. szukam ogrodzenia panelowego na ok. 25 metrów bieżących..." className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-emerald-500 resize-none"></textarea>
-              </div>
-              <button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl transition-colors text-sm tracking-wide">
-                Wyślij zapytanie o wycenę
-              </button>
-            </form>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Szczegóły / Wymiary (opcjonalnie)</label>
+                  <textarea rows={3} placeholder="np. szukam ogrodzenia panelowego na ok. 25 metrów bieżących..." className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-emerald-500 resize-none"></textarea>
+                </div>
+                <button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl transition-colors text-sm tracking-wide">
+                  Wyślij zapytanie o wycenę
+                </button>
+              </form>
+            ) : (
+              <div className="h-64 flex items-center justify-center text-zinc-500 text-sm">Ładowanie formularza...</div>
+            )}
           </div>
         </div>
       </section>
